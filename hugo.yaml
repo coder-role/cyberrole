@@ -21,27 +21,26 @@ menu:
     - name: Home
       pageRef: /
       weight: 1
-    - name: Blog
-      pageRef: /blog
-      weight: 2
-    - name: Portfolio
-      url: /portfolio
-      weight: 3
     - name: About
+      pageRef: /about
+      weight: 2
+    - name: blog
+      pageRef: /blog
+      weight: 3
+    - name: Search
       weight: 4
-      url: /about
-    - name: Contact ↗
-      weight: 5
-      url: /contact
+      params:
+        type: search
     - name: Linkedin
-      weight: 6
+      weight: 5
       url: "https://www.linkedin.com/in/lerobert23/"
       params:
         icon: linkedin
-    - name: Search
-      weight: 7
+    - name: Github
+      weight: 6
+      url: https://github.com/coder-role
       params:
-        type: search
+        icon: github
 
 params:
   navbar:
@@ -53,5 +52,5 @@ params:
     displayPoweredBy: true
 
   editURL:
-    enable: true
+    enable: false
     base: "https://github.com/imfing/hextra-starter-template/edit/main/content"
