@@ -3,4 +3,4 @@ title: About Me
 type: about
 ---
 
-Hi 👋 I’m Robert. Welcome to my cybersecurity blog for Hack the Box. I started my journey into cybersecurity January 2024. What I love the most about offensive security is that each engagement is different from the next. Each machine requires me to acquire new knowledge or utilize my existing skill set in new ways. I hope my write-ups are helpful to those of you walking the same path that I am.
+Hi 👋 I’m Robert. Welcome to my blog. The purpose of this blog is to provide a space for me to document my journey through online platforms for learning ethical hacking and cybersecurity like HackTheBox and TryHackMe. My main focus is to refine my skills and build confidence, but if others benefit from reading my thought process, that would be a great bonus.
