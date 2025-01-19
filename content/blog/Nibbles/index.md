@@ -32,9 +32,7 @@ sudo nmap -Pn -sV -sC -oA $target/nmap -p- $target_ip
 
 The -Pn flag disables host discovery (useful for avoiding firewall filters). -sV is for service version detection, and -sC runs default nmap scripts for additional information gathering. -oA tells nmap to output to an .xml file, grepable file, and the default format. Finally, -p- is to scan all 65,353 ports.
 
-![Results from the initial nmap scan with two open ports.](image.png)
-
-Results from the initial nmap scan with two open ports.
+![image.png](image.png)
 
 ### B. Web Server Enumeration
 
@@ -66,18 +64,14 @@ Since the CMS (Nibbleblog) may have hidden administrative or configuration files
 gobuster dir -w $dir_wordlist -u $target_domain/nibbleblog --exclude-length 0
 ```
 
-![Checking for hidden subdirectories using gobuster](image%203.png)
-
-Checking for hidden subdirectories using gobuster
+![image.png](image%203.png)
 
 ```bash
 # Searching for hidden files using file extensions
 gobuster dir -w $dir_wordlist -u $target_domain/nibbleblog -x .txt,.MD,.php,.xml --exclude-length 0
 ```
 
-![Checking for hidden files using gobuster](image%204.png)
-
-Checking for hidden files using gobuster
+![image.png](image%204.png)
 
 After exploring the source code and navigating through the blog, I identify some interesting files and URLs that could be useful for further enumeration such as admin.php,, install.php, and update.php. I will now explore these files to uncover further potential entry points.
 
