@@ -12,6 +12,6 @@ sidebar:
   open: true
 ---
 
-<img src="comingsoon.png" alt="draft" width="20%">
+<img src="https://github.com/coder-role/cyberrole/blob/main/assets/images/comingsoon.png?raw=true" alt="draft">
 
 <!--more-->
