@@ -1,22 +1,34 @@
 ---
 title: Nibbles
+date: 2025-01-20
+authors:
+  - name: cyberrole
+tags:
+  - HTB
+  - Easy
+  - Write-up
 type: blog
 sidebar:
   open: true
 ---
+
+This write-up is for the Hack the Box machine, Nibbles released on January 13, 2018.
+
+<!--more-->
+
 ## 1. Summary
 
 Nibbles is a HackTheBox host serving a blog using the Nibbleblog content management system (CMS). The CMS prior to version 4.0.5 contains a flaw that allows an authenticated user to upload executable files with malicious code using the “My Image” plugin. This vulnerability grants an attacker the ability to execute commands remotely. More information about the vulnerability can be found in [CVE-2015-6967](https://nvd.nist.gov/vuln/detail/CVE-2015-6967).
 
 While the plugin itself is only accessible through the admin portal, the admin account is protected with a weak password. Guesswork allows an attacker to easily access the plugin and exploit it. That said, Nibbles demonstrates the need for using strong passwords and ensuring uploaded files are properly sanitized.
 
-Below I demonstrate how I conquered this box. 
+Below I demonstrate how I conquered this box.
 
 ## 2. Enumeration
 
 ### A. nmap
 
-To start, I set up my project variables and plan to gather as much information about the host as possible to determine the best entry point. I initiate an nmap scan on the host for open network ports and their services. 
+To start, I set up my project variables and plan to gather as much information about the host as possible to determine the best entry point. I initiate an nmap scan on the host for open network ports and their services.
 
 ```bash
 # Project setup
@@ -26,7 +38,7 @@ touch $target/creds.txt
 touch $target/computers.txt
 target_ip='10.129.166.102'
 
-# nmap scan with version and script detection (-sV, -sC) on all ports (-p-) 
+# nmap scan with version and script detection (-sV, -sC) on all ports (-p-)
 sudo nmap -Pn -sV -sC -oA $target/nmap -p- $target_ip
 ```
 
@@ -36,7 +48,7 @@ The -Pn flag disables host discovery (useful for avoiding firewall filters). -sV
 
 ### B. Web Server Enumeration
 
-Knowing that I am working with a webserver, I add the domain to /etc/hosts. The common domain naming convention in HTB is a combination of the machine name and the domain .htb. In this case, it is nibbles.htb. In doing so, I can now use nibbles.htb instead of the IP address, which is useful for testing and interacting with the web server directly.  
+Knowing that I am working with a webserver, I add the domain to /etc/hosts. The common domain naming convention in HTB is a combination of the machine name and the domain .htb. In this case, it is nibbles.htb. In doing so, I can now use nibbles.htb instead of the IP address, which is useful for testing and interacting with the web server directly.
 
 ```bash
 target_domain="${target}.htb"
@@ -53,9 +65,9 @@ I then launch a browser and visit the URL for the host, nibbles.htb. The page fi
 
 ![image.png](image%202.png)
 
-Visiting the subdirectory loads a blog with some dead links. The only thing that seems to be of interest is the “Powered by Nibbleblog” text in the bottom right corner. So I search for it on Google and find the Github repository for Nibbleblog. I spend some time reviewing the repository in hopes of finding useful information. I learn that the CMS is using PHP, but did not find credentials. Unable to find a potential vulnerability, I move into the next phase, directory enumeration to see if I can find any useful information that is different from the repository. 
+Visiting the subdirectory loads a blog with some dead links. The only thing that seems to be of interest is the “Powered by Nibbleblog” text in the bottom right corner. So I search for it on Google and find the Github repository for Nibbleblog. I spend some time reviewing the repository in hopes of finding useful information. I learn that the CMS is using PHP, but did not find credentials. Unable to find a potential vulnerability, I move into the next phase, directory enumeration to see if I can find any useful information that is different from the repository.
 
-Since the CMS (Nibbleblog) may have hidden administrative or configuration files, I use gobuster to enumerate possible subdirectories and files that could lead to sensitive information or vulnerabilities. However, none of the results surprise me because much of it is the same as what I found in the Github repository.  The two wordlists used in the one-liner have been ones that I have had the most success on HTB.
+Since the CMS (Nibbleblog) may have hidden administrative or configuration files, I use gobuster to enumerate possible subdirectories and files that could lead to sensitive information or vulnerabilities. However, none of the results surprise me because much of it is the same as what I found in the Github repository. The two wordlists used in the one-liner have been ones that I have had the most success on HTB.
 
 ### C. Hidden Directory Enumeration
 
@@ -83,15 +95,15 @@ Visiting: [http://nibbles.htb/nibbleblog/update.php](http://nibbles.htb/nibblebl
 
 ![image.png](image%206.png)
 
-Visiting the Config.xml file reveals the admin email, admin@nibbles.com 
+Visiting the Config.xml file reveals the admin email, admin@nibbles.com
 
 ![image.png](image%207.png)
 
-Visiting the user.xml file reveals the username admin and what appears to be a counter for failed login attempts. At this point, it’s safe to assume there is a limitation to the number of failed attempts that can be made before failed attempts from the same IP address will be blocked. 
+Visiting the user.xml file reveals the username admin and what appears to be a counter for failed login attempts. At this point, it’s safe to assume there is a limitation to the number of failed attempts that can be made before failed attempts from the same IP address will be blocked.
 
 ![image.png](image%208.png)
 
-After thoroughly investigating the available information and resources, I turn to Searchsploit to check for known vulnerabilities in the Nibbleblog CMS version 4.0.3 found on the target.   
+After thoroughly investigating the available information and resources, I turn to Searchsploit to check for known vulnerabilities in the Nibbleblog CMS version 4.0.3 found on the target.
 
 ![image.png](image%209.png)
 
@@ -124,7 +136,7 @@ msfconsole -q
 
 ![image.png](image%2015.png)
 
-It successfully runs and after a moment, I am now connected to the host in the “My Image” plugin directory. I drop into a shell and learn that I am connected as the user, nibbler. 
+It successfully runs and after a moment, I am now connected to the host in the “My Image” plugin directory. I drop into a shell and learn that I am connected as the user, nibbler.
 
 ![image.png](image%2016.png)
 
@@ -141,7 +153,7 @@ After I complete that step, I begin enumerating basic information on the host. T
 
 ![image.png](image%2018.png)
 
-I view the contents of user.txt to obtain my first flag. Now it’s time to find a way to escalate privileges in order to view the contents of the root.txt flag. 
+I view the contents of user.txt to obtain my first flag. Now it’s time to find a way to escalate privileges in order to view the contents of the root.txt flag.
 
 ![image.png](image%2019.png)
 
@@ -156,7 +168,7 @@ sudo -l
 
 ![image.png](image%2020.png)
 
-Before I run the script, I confirm that I am unable to view root folder contents. 
+Before I run the script, I confirm that I am unable to view root folder contents.
 
 ![image.png](image%2021.png)
 
