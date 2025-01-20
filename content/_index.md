@@ -1,13 +1,12 @@
 ---
-title: My Site
+title: Welcome to my Cybersecurity Blog
 toc: false
 ---
 
-This is the landing page.
+![banner](banner.jpg)
 
-## Explore
+## Latest Updates
 
 {{< cards >}}
-  {{< card link="docs" title="Docs" icon="book-open" >}}
-  {{< card link="about" title="About" icon="user" >}}
+{{< card link="/blog/Nibbles" title="Nibbles" image="assets/images/nibbles.png" subtitle="HTB - Nibbles" method="Resize" options="600x q80 webp" tag="HTB" tagType="error" >}}
 {{< /cards >}}
