@@ -87,7 +87,7 @@ gobuster dir -w $dir_wordlist -u $target_domain/nibbleblog -x .txt,.MD,.php,.xml
 
 After exploring the source code and navigating through the blog, I identify some interesting files and URLs that could be useful for further enumeration such as admin.php,, install.php, and update.php. I will now explore these files to uncover further potential entry points.
 
-The first file, admin.php, loads a web form to what I assume to be the admin panel. Rather than rushing into a brute force attack, which could trigger rate-limiting or IP blocking, I choose to explore other reconnaissance methods first. In a real-world scenarios, these proactive measures are crucial to avoid tipping off intrusion detection systems and to conserve resources for when brute-forcing becomes necessary.
+The first file, admin.php, loads a web form to what I assume to be the admin panel. Rather than rushing into a brute force attack, which could trigger rate-limiting or IP blocking, I choose to explore other reconnaissance methods first. In real-world scenarios, these proactive measures are crucial to avoid tipping off intrusion detection systems and to conserve resources for when brute-forcing becomes necessary.
 
 ![image.png](image%205.png)
 
