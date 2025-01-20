@@ -4,7 +4,7 @@ title: Cyber.Role
 # import hextra as module
 module:
   imports:
-  - path: github.com/imfing/hextra
+    - path: github.com/imfing/hextra
 
 markup:
   # allow raw html
@@ -48,7 +48,7 @@ params:
     displayLogo: false
 
   footer:
-    displayCopyright: false
+    displayCopyright: true
     displayPoweredBy: true
 
   editURL:
