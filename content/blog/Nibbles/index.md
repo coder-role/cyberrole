@@ -85,7 +85,7 @@ gobuster dir -w $dir_wordlist -u $target_domain/nibbleblog -x .txt,.MD,.php,.xml
 
 ![image.png](image%204.png)
 
-After exploring the source code and navigating through the blog, I identify some interesting files and URLs that could be useful for further enumeration such as admin.php,, install.php, and update.php. I will now explore these files to uncover further potential entry points.
+After exploring the source code and navigating through the blog, I identify some interesting files and URLs that could be useful for further enumeration such as admin.php, install.php, and update.php. I will now explore these files to uncover further potential entry points.
 
 The first file, admin.php, loads a web form to what I assume to be the admin panel. Rather than rushing into a brute force attack, which could trigger rate-limiting or IP blocking, I choose to explore other reconnaissance methods first. In real-world scenarios, these proactive measures are crucial to avoid tipping off intrusion detection systems and to conserve resources for when brute-forcing becomes necessary.
 
@@ -140,7 +140,7 @@ It successfully runs and after a moment, I am now connected to the host in the �
 
 ![image.png](image%2016.png)
 
-I begin by nibbler’s user information to see if there is anything I could abuse from the start. From the output, I can see nibbler is just a standard user on the host. Since the Metasploit shell, Meterpreter, has somewhat limited functionality I upgraded my shell using Python. This makes it easier to run commands and to navigate the system without encountering common issues associated with non-interactive shells.
+I begin by checking nibbler’s user information to see if there is anything I could abuse from the start. From the output, I can see nibbler is just a standard user on the host. Since the Metasploit shell, Meterpreter, has somewhat limited functionality I upgraded my shell using Python. This makes it easier to run commands and to navigate the system without encountering common issues associated with non-interactive shells.
 
 ```bash
 # Using the Python pty library to spawn a shell
