@@ -8,5 +8,6 @@ toc: false
 ## Latest Updates
 
 {{< cards >}}
-{{< card link="/blog/nibbles" title="Nibbles" image="https://github.com/coder-role/cyberrole/blob/main/assets/images/nibbles.png?raw=true" subtitle="HTB - Nibbles" method="Resize" options="600x q80 webp" tag="HTB" tagType="error" >}}
+{{< card link="/blog/sightless" title="Sightless" image="https://github.com/coder-role/cyberrole/blob/main/assets/images/sightless.png?raw=true" subtitle="#HTB #Linux #Write-Up" method="Resize" options="600x q80 webp" >}}
+{{< card link="/blog/nibbles" title="Nibbles" image="https://github.com/coder-role/cyberrole/blob/main/assets/images/nibbles.png?raw=true" subtitle="#HTB #Linux #Write-Up" method="Resize" options="600x q80 webp" >}}
 {{< /cards >}}
