@@ -7,6 +7,7 @@ tags:
   - HTB
   - Easy
   - Write-up
+  - Linux
 type: blog
 sidebar:
   open: true
