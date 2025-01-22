@@ -41,6 +41,11 @@ menu:
       url: https://github.com/coder-role
       params:
         icon: github
+    - name: Hack The Box
+      weight: 7
+      url: https://app.hackthebox.com/profile/1974048
+      params:
+        icon: hackthebox
 
 params:
   navbar:
