@@ -12,17 +12,22 @@ sidebar:
   open: true
 ---
 
+![info_card](https://github.com/coder-role/cyberrole/blob/main/assets/images/nibbles.png?raw=true)
+
 This write-up is for the Hack the Box machine, Nibbles released on January 13, 2018.
 
 <!--more-->
 
 ## 1. Summary
 
+<details><summary>Spoiler</summary>
 Nibbles is a HackTheBox host serving a blog using the Nibbleblog content management system (CMS). The CMS prior to version 4.0.5 contains a flaw that allows an authenticated user to upload executable files with malicious code using the “My Image” plugin. This vulnerability grants an attacker the ability to execute commands remotely. More information about the vulnerability can be found in [CVE-2015-6967](https://nvd.nist.gov/vuln/detail/CVE-2015-6967).
 
 While the plugin itself is only accessible through the admin portal, the admin account is protected with a weak password. Guesswork allows an attacker to easily access the plugin and exploit it. That said, Nibbles demonstrates the need for using strong passwords and ensuring uploaded files are properly sanitized.
 
 Below I demonstrate how I conquered this box.
+
+</details>
 
 ## 2. Enumeration
 
