@@ -145,6 +145,8 @@ It successfully runs and after a moment, I am now connected to the host in the �
 
 ![image.png](image%2016.png)
 
+## 4. Initial Foothold
+
 I begin by checking nibbler’s user information to see if there is anything I could abuse from the start. From the output, I can see nibbler is just a standard user on the host. Since the Metasploit shell, Meterpreter, has somewhat limited functionality I upgraded my shell using Python. This makes it easier to run commands and to navigate the system without encountering common issues associated with non-interactive shells.
 
 ```bash
@@ -162,7 +164,7 @@ I view the contents of user.txt to obtain my first flag. Now it’s time to find
 
 ![image.png](image%2019.png)
 
-## 4. Privilege Escalation
+## 5. Privilege Escalation
 
 To check for potential privilege escalation opportunities, I ran the sudo -l command. This reveals any commands that the current user can run with elevated privileges. In this case, I discovered that the user could run the [monitor.sh](http://monitor.sh) script with root privileges, which might be an avenue for escalating to root. Judging from the output, the monitor.sh is located in the personal/stuff subdirectory which is likely part of the personal.zip file found earlier.
 
@@ -185,6 +187,6 @@ I also check the level of access the user nibbler has on the [monitor.sh](http:/
 
 ![image.png](image%2024.png)
 
-## 5. Conclusion
+## 6. Conclusion
 
 Through this exercise, I was able to simulate a full penetration test scenario demonstrating the importance of reconnaissance, identifying vulnerabilities, and escalating privileges to gain full control over a compromised host. The process also highlighted how default credentials, improper configuration, and unpatched vulnerabilities can often be the easiest route to a system compromise.
