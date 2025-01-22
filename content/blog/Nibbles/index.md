@@ -52,9 +52,11 @@ The `-Pn` flag disables host discovery (useful for avoiding firewall filters). `
 
 ![image.png](image.png)
 
+Judging from the nmap results, I know I am working with an Apache web server on port 80. I also know that I can potentially connect to the system over SSH if I can obtain a set of valid credentials since port 22 is open.
+
 ### B. Web Server Enumeration
 
-Knowing that I am working with a webserver, I add the domain to `/etc/hosts`. The common domain naming convention in HTB is a combination of the machine name and the domain .htb. In this case, it is nibbles.htb. In doing so, I can now use nibbles.htb instead of the IP address, which is useful for testing and interacting with the web server directly.
+Knowing that I am working with a web server, I add its domain to `/etc/hosts`. The common domain naming convention in HTB is a combination of the machine name and the domain .htb. In this case, it is nibbles.htb. In doing so, I can now use nibbles.htb instead of the IP address, which is useful for testing and interacting with the web server directly.
 
 ```bash
 target_domain="${target}.htb"
