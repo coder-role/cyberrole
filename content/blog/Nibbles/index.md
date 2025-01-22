@@ -47,13 +47,13 @@ target_ip='10.129.166.102'
 sudo nmap -Pn -sV -sC -oA $target/nmap -p- $target_ip
 ```
 
-The -Pn flag disables host discovery (useful for avoiding firewall filters). -sV is for service version detection, and -sC runs default nmap scripts for additional information gathering. -oA tells nmap to output to an .xml file, grepable file, and the default format. Finally, -p- is to scan all 65,353 ports.
+The `-Pn` flag disables host discovery (useful for avoiding firewall filters). `-sV` is for service version detection, and `-sC` runs default nmap scripts for additional information gathering. `-oA` tells nmap to output to an .xml file, grepable file, and the default format. Finally, `-p-` is to scan all 65,353 ports.
 
 ![image.png](image.png)
 
 ### B. Web Server Enumeration
 
-Knowing that I am working with a webserver, I add the domain to /etc/hosts. The common domain naming convention in HTB is a combination of the machine name and the domain .htb. In this case, it is nibbles.htb. In doing so, I can now use nibbles.htb instead of the IP address, which is useful for testing and interacting with the web server directly.
+Knowing that I am working with a webserver, I add the domain to `/etc/hosts`. The common domain naming convention in HTB is a combination of the machine name and the domain .htb. In this case, it is nibbles.htb. In doing so, I can now use nibbles.htb instead of the IP address, which is useful for testing and interacting with the web server directly.
 
 ```bash
 target_domain="${target}.htb"
@@ -90,7 +90,7 @@ gobuster dir -w $dir_wordlist -u $target_domain/nibbleblog -x .txt,.MD,.php,.xml
 
 ![image.png](image%204.png)
 
-After exploring the source code and navigating through the blog, I identify some interesting files and URLs that could be useful for further enumeration such as admin.php, install.php, and update.php. I will now explore these files to uncover further potential entry points.
+After exploring the source code and navigating through the blog, I identify some interesting files and URLs that could be useful for further enumeration such as `admin.php`, `install.php`, `update.php`, `config.xml`, and `user.xml`. I will now explore these files to uncover further potential entry points.
 
 The first file, admin.php, loads a web form to what I assume to be the admin panel. Rather than rushing into a brute force attack, which could trigger rate-limiting or IP blocking, I choose to explore other reconnaissance methods first. In real-world scenarios, these proactive measures are crucial to avoid tipping off intrusion detection systems and to conserve resources for when brute-forcing becomes necessary.
 
@@ -100,11 +100,11 @@ Visiting: [http://nibbles.htb/nibbleblog/update.php](http://nibbles.htb/nibblebl
 
 ![image.png](image%206.png)
 
-Visiting the Config.xml file reveals the admin email, admin@nibbles.com
+Visiting the `config.xml` file reveals the admin email, admin@nibbles.com
 
 ![image.png](image%207.png)
 
-Visiting the user.xml file reveals the username admin and what appears to be a counter for failed login attempts. At this point, it’s safe to assume there is a limitation to the number of failed attempts that can be made before failed attempts from the same IP address will be blocked.
+Visiting the `user.xml` file reveals the username admin and what appears to be a counter for failed login attempts. At this point, it’s safe to assume there is a limitation to the number of failed attempts that can be made before failed attempts from the same IP address will be blocked.
 
 ![image.png](image%208.png)
 
@@ -141,7 +141,7 @@ msfconsole -q
 
 ![image.png](image%2015.png)
 
-It successfully runs and after a moment, I am now connected to the host in the “My Image” plugin directory. I drop into a shell and learn that I am connected as the user, nibbler.
+It successfully runs and after a moment, I am now connected to the host in the `My Image` plugin directory. I drop into a shell and learn that I am connected as the user, nibbler.
 
 ![image.png](image%2016.png)
 
@@ -156,17 +156,17 @@ python3 -c 'import pty;pty.spawn("bin/sh")'
 
 ![image.png](image%2017.png)
 
-After I complete that step, I begin enumerating basic information on the host. To determine if I need to move laterally on this host, I check the /home directory. There are a variety of ways to determine other users, this is just one method. Seeing that nibbler is the only user with a home directory, I navigate to read the contents of the user flag. I run ls just in case it is not there. I confirm that it is there with an additional file, personal.zip.
+After I complete that step, I begin enumerating basic information on the host. To determine if I need to move laterally on this host, I check the `/home` directory. There are a variety of ways to determine other users, this is just one method. Seeing that nibbler is the only user with a home directory, I navigate to read the contents of the user flag. I run ls just in case it is not there. I confirm that it is there with an additional file, `personal.zip`.
 
 ![image.png](image%2018.png)
 
-I view the contents of user.txt to obtain my first flag. Now it’s time to find a way to escalate privileges in order to view the contents of the root.txt flag.
+I view the contents of user.txt to obtain my first flag. Now it’s time to find a way to escalate privileges in order to view the contents of the `root.txt` flag.
 
 ![image.png](image%2019.png)
 
 ## 5. Privilege Escalation
 
-To check for potential privilege escalation opportunities, I ran the sudo -l command. This reveals any commands that the current user can run with elevated privileges. In this case, I discovered that the user could run the [monitor.sh](http://monitor.sh) script with root privileges, which might be an avenue for escalating to root. Judging from the output, the monitor.sh is located in the personal/stuff subdirectory which is likely part of the personal.zip file found earlier.
+To check for potential privilege escalation opportunities, I ran the `sudo -l` command. This reveals any commands that the current user can run with elevated privileges. In this case, I discovered that the user could run the `monitor.sh` script with root privileges, which might be an avenue for escalating to root. Judging from the output, the monitor.sh is located in the personal/stuff subdirectory which is likely part of the `personal.zip` file found earlier.
 
 ```bash
 # Checking sudo permissions
@@ -179,7 +179,7 @@ Before I run the script, I confirm that I am unable to view root folder contents
 
 ![image.png](image%2021.png)
 
-I also check the level of access the user nibbler has on the [monitor.sh](http://monitor.sh) script by running ls -l on the file to list its permission. The results show that everyone has read, write, and execute permission on it. Since a copy already exists in the personal.zip file, I’m not concerned with overwriting its contents. I overwrite the file with the command to read the contents of the root.txt file and run it to obtain the flag.
+I also check the level of access the user nibbler has on the `monitor.sh` script by running `ls -l` on the file to list its permission. The results show that everyone has read, write, and execute permission on it. Since a copy already exists in the personal.zip file, I’m not concerned with overwriting its contents. I overwrite the file with the command to read the contents of the `root.txt` file and run it to obtain the flag.
 
 ![image.png](image%2022.png)
 
