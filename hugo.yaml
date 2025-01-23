@@ -48,14 +48,19 @@ menu:
         icon: hackthebox
 
 params:
-  navbar:
-    displayTitle: true
-    displayLogo: false
-
-  footer:
-    displayCopyright: true
-    displayPoweredBy: true
-
   editURL:
     enable: false
     base: "https://github.com/imfing/hextra-starter-template/edit/main/content"
+  footer:
+    displayCopyright: true
+    displayPoweredBy: true
+  navbar:
+    displayTitle: true
+    displayLogo: false
+  theme:
+    # light | dark | system
+    default: system
+    displayToggle: true
+  page:
+    # full (100%), wide (90rem), normal (1280px)
+    width: wide
