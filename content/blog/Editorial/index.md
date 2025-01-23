@@ -1,6 +1,6 @@
 ---
 title: Editorial
-# date: 2025-01-20
+date: 2025-01-22
 authors:
   - name: cyberrole
 tags:
