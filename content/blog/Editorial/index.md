@@ -15,22 +15,22 @@ sidebar:
 
 ![info_card](https://github.com/coder-role/cyberrole/blob/main/assets/images/editorial.png?raw=true)
 
-<!--more-->
-
 In this post, I’ll walk you through my enumeration and exploitation process of the 'Editorial' machine on Hack The Box. The goal is to gain access to the system by finding and exploiting vulnerabilities, all while documenting each step.
+
+<!--more-->
 
 ## 1. Summary
 
-<details><summary>Click to Reveal Spoiler</summary>
-Editorial is a machine on Hack the Box using nginx and Flask to serve a book publishing website. The absence of proper input validation in the URL field leads to a successful sever-side request forgery (SSRF) attack. SSRF is an attack in which a hacker can submit an unauthorized HTTP requests to gain access to resources that are not normally made available to the public. 
-</details>
+{{% details title="Click to Reveal Spoilers" closed="true" %}}
+Editorial is a machine on Hack the Box using nginx and Flask to serve a book publishing website. The absence of proper input validation in the URL field leads to a successful sever-side request forgery (SSRF) attack. SSRF is an attack in which a hacker can submit an unauthorized HTTP requests to gain access to resources that are not normally made available to the public.
+{{% /details %}}
 
 ## 2. Enumeration
 
-My first step in tackling this machine is setting up my workspace environment with variables and note files. This allows me to efficiently reuse static information across multiple scripts to enumerate the target machine. In addition, creating note files allow me to organize relevant information. 
+My first step in tackling this machine is setting up my workspace environment with variables and note files. This allows me to efficiently reuse static information across multiple scripts to enumerate the target machine. In addition, creating note files allow me to organize relevant information.
 
-> [!NOTE] 
-> Please be aware that I am storing sensitive information plainly only for the sake of this blog. In a real penetration test, sensitive  information such as credentials will need to be stored securely using a credential manager or applications with similar functionality.
+> [!NOTE]
+> Please be aware that I am storing sensitive information plainly only for the sake of this blog. In a real penetration test, sensitive information such as credentials will need to be stored securely using a credential manager or applications with similar functionality.
 
 ```bash
 # Workspace Setup
@@ -46,7 +46,7 @@ target_ip='10.129.183.158'
 After setting up my workspace, I perform an nmap scan to look for open ports and map their services.
 
 ```bash
-# nmap scan with version and script detection (-sV, -sC) on all ports (-p-) 
+# nmap scan with version and script detection (-sV, -sC) on all ports (-p-)
 sudo nmap -Pn -sV -sC -oA $target/nmap -p- $target_ip
 ```
 
@@ -76,7 +76,7 @@ Following this step, I check for easily exploitable vulnerabilities by enumerati
 whatweb $target_domain
 ```
 
-The command `whatweb` is useful for this situation. It is a command used to identify the technology and frameworks a website is using, helpful in identifying possible attack vectors. It shows the application using nginx, a server software with HTTPS server capabilities. 
+The command `whatweb` is useful for this situation. It is a command used to identify the technology and frameworks a website is using, helpful in identifying possible attack vectors. It shows the application using nginx, a server software with HTTPS server capabilities.
 
 ![image.png](image%201.png)
 
@@ -92,17 +92,17 @@ Next, I visit the root URL and learn that it is a site for a publishing company.
 
 ![image.png](image%204.png)
 
-After I finish with the about page, I visit the upload page, [http://editorial.htb/upload](http://editorial.htb/upload). It appears to be a form for users to submit publication requests with this mock company, Tiempo Arriba. The form allows a user to submit a book cover via a URL address or a file upload. Upload pages are prime targets for exploitation. If input is not properly sanitized, it can lead to the system being compromised. 
+After I finish with the about page, I visit the upload page, [http://editorial.htb/upload](http://editorial.htb/upload). It appears to be a form for users to submit publication requests with this mock company, Tiempo Arriba. The form allows a user to submit a book cover via a URL address or a file upload. Upload pages are prime targets for exploitation. If input is not properly sanitized, it can lead to the system being compromised.
 
 ![image.png](image%205.png)
 
-With the web application enumerated, the next step is to test for potential vulnerabilities, specifically by focusing on the file upload feature and its interactions with URLs. 
+With the web application enumerated, the next step is to test for potential vulnerabilities, specifically by focusing on the file upload feature and its interactions with URLs.
 
 I open up Burp Suite to capture the form’s responses and replay any requests as needed. Since I only want to analyze traffic associated with the target system, I define my scope within Burp Suite and add its IP address to the scope menu. Next, I open up the Proxy tab and ensure Intercept is enabled.
 
 ![image.png](image%206.png)
 
-Following that, I download a book cover to my workspace. I set my proxy so that the traffic passes through the default proxy address for Burp Suite, 127.0.0.1:8080. 
+Following that, I download a book cover to my workspace. I set my proxy so that the traffic passes through the default proxy address for Burp Suite, 127.0.0.1:8080.
 
 ![image.png](image%207.png)
 
@@ -120,17 +120,17 @@ By observing that the form allows URLs to be input and renders images based on t
 
 ## 3. Exploitation
 
-I turn off my proxy in case I need to test port 8080. Then, I enter [http://127.0.0.1:5000](http://127.0.0.1:5000) and click `Preview`. Unlike my earlier attempts, instead of a proper image, the application renders a broken image icon. I right click on it and open it in a new tab to render it properly. However, instead of an image, a download prompt opens. 
+I turn off my proxy in case I need to test port 8080. Then, I enter [http://127.0.0.1:5000](http://127.0.0.1:5000) and click `Preview`. Unlike my earlier attempts, instead of a proper image, the application renders a broken image icon. I right click on it and open it in a new tab to render it properly. However, instead of an image, a download prompt opens.
 
 ![image.png](image%2010.png)
 
-I download the file and analyze it using the command utility `file` to determine the type of file downloaded. 
+I download the file and analyze it using the command utility `file` to determine the type of file downloaded.
 
 ```bash
 file 26e9060e-5156-4b8f-8b70-fc35c2341c5f
 ```
 
-`file` shows that I downloaded a JSON file. 
+`file` shows that I downloaded a JSON file.
 
 ![image.png](image%2011.png)
 
@@ -172,11 +172,11 @@ I successfully log onto the host as dev
 
 ## 4. Initial Foothold
 
-With access to a system account, I first check what the user `dev` can run with elevated privileges using `sudo -l`. 
+With access to a system account, I first check what the user `dev` can run with elevated privileges using `sudo -l`.
 
 ![image.png](image%2015.png)
 
-It doesn’t appear that I can run sudo as the user, dev. However, I can still use the account to begin exploring directories, files, and the system to search for potential privilege escalation vectors. 
+It doesn’t appear that I can run sudo as the user, dev. However, I can still use the account to begin exploring directories, files, and the system to search for potential privilege escalation vectors.
 
 ```bash
 # Checking for users on the host
@@ -198,7 +198,7 @@ I grab the user flag
 
 ![image.png](image%2018.png)
 
-Next, I inspect the `apps` directory. It is suspiciously empty so I add the option `-a` to show hidden directories. 
+Next, I inspect the `apps` directory. It is suspiciously empty so I add the option `-a` to show hidden directories.
 
 ![image.png](image%2019.png)
 
@@ -211,7 +211,7 @@ Since the `.git` directory is on the system, I use the `git` command to start en
 git log
 ```
 
-I see a commit where the host was once downgraded the dev environment. 
+I see a commit where the host was once downgraded the dev environment.
 
 ![image.png](image%2020.png)
 
@@ -236,7 +236,7 @@ su prod
 
 ![image.png](image%2022.png)
 
-I check for commands that I can run as the user `prod` using `sudo -l`.  
+I check for commands that I can run as the user `prod` using `sudo -l`.
 
 ```bash
 # Checking sudo privileges
@@ -245,7 +245,7 @@ sudo -l
 
 ![image.png](image%2023.png)
 
-In doing so, the output reveals the presence of a Python script, `clone_prod_change.py` that can be ran as root using `sudo`. It uses the Python Repo library from git. 
+In doing so, the output reveals the presence of a Python script, `clone_prod_change.py` that can be ran as root using `sudo`. It uses the Python Repo library from git.
 
 ![image.png](image%2024.png)
 
@@ -255,7 +255,7 @@ I search for it on Google using “git import Repo vulnerability.” I open the 
 sudo /usr/bin/python3 /opt/internal_apps/clone_changes/clone_prod_change.py 'ext::sh -c cat% /root/root.txt% >% /tmp/root.txt'
 ```
 
-The script generates an error, “Could not read from remote repository” because it is not accessing a GitHub repository. However, the error does not impact the shell command and it is executed. 
+The script generates an error, “Could not read from remote repository” because it is not accessing a GitHub repository. However, the error does not impact the shell command and it is executed.
 
 ![image.png](image%2025.png)
 
