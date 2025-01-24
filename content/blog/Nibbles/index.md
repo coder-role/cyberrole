@@ -127,7 +127,7 @@ After extensively enumerating the host to uncover sensitive information, it appe
 
 ![image.png](image%2012.png)
 
-One thing that I have learned is that most applications will use the name of the application itself as the default password. In this case, “nibbles.” I enter it and success!
+On my third attempt, I successfully guess the password and log in.
 
 ![image.png](image%2013.png)
 
