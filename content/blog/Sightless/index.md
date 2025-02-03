@@ -225,21 +225,21 @@ I add admin.sightless.htb to `/etc/host`, but it doesn’t render. There’s a p
 ssh -L 8080:127.0.0.1:8080 michael@10.129.89.120
 ```
 
-It opens up a login form. Again, like in Nibbles, I will avoid rushing into a brute force attack. The root credentials found earlier is an option, but those credentials are most likely for logging into the container for SQLPad.
+It opens up a login form. The root credentials found earlier is an option, but those credentials are most likely for logging into the container for SQLPad. Again, like in Nibbles, I will avoid rushing into a brute force attack. I believe that if I wanted to login, I would need to explore the attack vector found by linpeas.
 
 ![image.png](image%2017.png)
 
-I set up remote debugging to listen on all the high numbered ports found earlier since those aren’t the common, well-known ports and because there isn’t clarity as to which one is being used to debug.
+After I finish reading the documation on how to configure remote debugging on Chrome, I proceed to install the browser and pull up the configuration window. I set up remote debugging to listen on all the high numbered ports found earlier since port 0 does not exist and john can be using any port. I know my best shot at finding my next attack vector is to monitor all of them.
 
 ![image.png](image%2018.png)
 
-I then kill my current tunnel and create a tunnel for all high numbered ports since unclear which port the admin will use for remote debugging.
+I terminate my current tunnel and create a tunnel for all high numbered ports.
 
 ```bash
 ssh -L 8080:127.0.0.1:8080 -L 34367:127.0.0.1:34367 -L 33060:127.0.0.1:33060 -L 45569:127.0.0.1:45569 -L 34369:127.0.0.1:34369  michael@10.129.89.120
 ```
 
-After some time, some things flash on the screen. It happens fairly quickly and quite frequently. I open snipping tool and get ready to capture whatever it is. I see that the user, john is logging in with the admin credentials
+After some time, some things flash on the screen. It happens fairly quickly and quite frequently. I open snipping tool and get ready to capture whatever it is. I see that the user, john is logging in with the admin credentials.
 
 ![image.png](image%2019.png)
 
@@ -247,7 +247,7 @@ I copy the credentials down and use them to log into the admin panel.
 
 ## 5. Privilege Escalation
 
-After successfully logging in, I explore the application and find an interesting service, PHP-FPM. PHP-FPM is a process manager that allows a site using it to handle greater volumes of web traffic. While, that may not be of interest to most individuals, the service itself allows administrators to control the service through the admin portal including stopping and starting PHP-FPM. By seeing that PHP-FPM can be started and stopped through the panel, I can infer that it is configured with elevated privileges. In addition, I realize I can create a new PHP-FPM service with a custom command that runs when the service restarts. With this feature, I know I can hijack the service to create a copy of the root flag and make it viewable by non-root accounts.
+I successfully log in and immediately begin exploiting the application. I find an interesting service, PHP-FPM. PHP-FPM is a process manager that allows a site using it to handle greater volumes of web traffic. While, that may not be of interest to most individuals, the service itself allows administrators to control it through the admin portal including stopping and starting PHP-FPM. By seeing that PHP-FPM can be started and stopped through the panel and knowing that the status of a service can only be changed using sudo, I can infer that this function is configured with elevated privileges. In addition, I realize I can create a new PHP-FPM service with a custom command that runs when the service restarts. With this feature, I know I can hijack the service to create a copy of the root flag and make it viewable by non-root accounts.
 
 {{% steps %}}
 
