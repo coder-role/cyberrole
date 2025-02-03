@@ -18,8 +18,6 @@ Follow along as I walk you through how an attacker can leverage a series of vuln
 
 <!--more-->
 
-# Sightless
-
 ## 1. Summary
 
 {{% details title="Click to Reveal Spoilers" closed="true" %}}
