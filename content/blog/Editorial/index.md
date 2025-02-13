@@ -274,3 +274,5 @@ cat /tmp/root.txt
 ## 6. Conclusion
 
 Through this exercise, I successfully exploited the SSRF vulnerability present in “Editorial”, which led to privilege escalation and capturing the root flag. The key techniques involved in this process included identifying vulnerable functionality in the upload feature, leveraging Burp Suite to intercept and analyze HTTP responses, and exploiting the Python `Repo` library to execute arbitrary commands using the `ext::sh` syntax.
+
+![image.png](image%2028.png)

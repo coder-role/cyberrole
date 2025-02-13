@@ -300,3 +300,5 @@ Using `cat` to view the contents of root.txt.
 ## 6. Conclusion
 
 By engaging in this challenge, I demonstrate how an attacker can exploit a series of vulnerabilities to gain escalating levels of access. Beginning with a vulnerability in SQLPad, I was able to establish an initial foothold. From there, I exploited a configuration oversight within the container to escalate privileges to the host and eventually to root. Throughout this process, the key techniques included leveraging known CVEs, thorough enumerating of systems and chaining exploitations including cracking password hashes.
+
+![image.png](image%2025.png)
