@@ -23,7 +23,7 @@ Observe how I demonstrate how a vulnerabilty with the rare CVSS score of 10.0 ea
 ## 1. Summary
 
 {{% details title="Click to Reveal Spoilers" closed="true" %}}
-Broker is a simple boot-to-root machine on Hack the Box. It is designed to facilitate communication between different applications and services using a popular open-source message broker, ActiveMQ. Upon its release, Broker highlights the far-reaching implications of a known vulnerability being actively exploited in the wild. These exploitations often lead to data breaches, operational disruptions, financial loss, and reputational damage for the victims. In this exercise, I will exploit the flaw to gain a foothold, then demonstrate how to escalate privileges to root. While the vulnerability could potential be used to establish persistence, I did not do so in this case.
+Broker is a simple boot-to-root machine on Hack the Box. It is designed to facilitate communication between different applications and services using a popular open-source message broker, ActiveMQ. Upon its release, Broker highlights the far-reaching implications of a known vulnerability being actively exploited in the wild. These exploitations often lead to data breaches, operational disruptions, financial loss, and reputational damage for the victims. In this exercise, I will exploit the flaw to gain a foothold, then demonstrate how to escalate privileges to root. While the vulnerability could potentially be used to establish persistence, I did not do so in this case.
 {{% /details %}}
 
 ## 2. Enumeration
