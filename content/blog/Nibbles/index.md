@@ -188,8 +188,8 @@ I also check the level of access the user nibbler has on the `monitor.sh` script
 
 ![image.png](image%2023.png)
 
-![image.png](image%2024.png)
-
 ## 6. Conclusion
 
 Through this exercise, I was able to simulate a full penetration test scenario demonstrating the importance of reconnaissance, identifying vulnerabilities, and escalating privileges to gain full control over a compromised host. The process also highlighted how default credentials, improper configuration, and unpatched vulnerabilities can often be the easiest route to a system compromise.
+
+![image.png](image%2025.png)
