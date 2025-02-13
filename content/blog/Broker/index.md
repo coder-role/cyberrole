@@ -212,3 +212,5 @@ curl http://$target_ip:1337/root/root.txt
 In this write-up, I demonstrated how to exploit the CVE-2023-46604 vulnerability in Apache ActiveMQ to gain an initial foothold on the Broker machine. By leveraging an insecure deserialization flaw in ActiveMQ's OpenWire protocol, I was able to execute malicious code and gain access to the system. After obtaining user-level access, I escalated privileges using a local root exploit and taking advantage of an overprivileged NGINX binary.
 
 While I didn't establish persistence in this case, attackers could easily use similar flaws for long-term access if left unaddressed.
+
+![image.png](image%2015.png)
